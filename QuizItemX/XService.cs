@@ -25,18 +25,31 @@ namespace QuizItemX
             XElement item = new XElement("Item",qNode, aNode);
             root.Add(item);
             doc.Save(_path);
+            return;
         }
 
         public void Show()
         {
             XDocument doc = XDocument.Load(_path);
             XElement root = doc.Root;
-
             List<XElement> list = root.Elements().ToList();
+            int i = 1;
             foreach (XElement node in list)
             {
-                string a = node.Element("Question").Value;
+                Console.WriteLine($"{i} {node.Element("Question").Value}");
+                i++;
             }
+            return;
+        }
+
+        public void IsCorrectAnswer(string ans, int ind)
+        {
+            XDocument doc = XDocument.Load(_path);
+            XElement root = doc.Root;
+            List<XElement> list = root.Elements().ToList();
+            string isCorrect = ans == list[ind - 1].Element("Answer").Value ? "Correct answer!" : "Incorrect answer!";
+            Console.WriteLine(isCorrect);
+            return;
         }
     }
 }
